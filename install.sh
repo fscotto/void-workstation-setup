@@ -23,6 +23,7 @@ run_script() {
 # List of scripts to run in order
 SCRIPTS=(
   "$SCRIPT_DIR/scripts/system.sh"
+  "$SCRIPT_DIR/scripts/nerdfonts.sh"
   "$SCRIPT_DIR/scripts/dotfiles.sh"
   "$SCRIPT_DIR/scripts/openssl-legacy.sh"
   "$SCRIPT_DIR/scripts/setup-tpm2.sh"
