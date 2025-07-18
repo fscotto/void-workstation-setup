@@ -63,7 +63,6 @@ PACKAGES=(
   go
   grim
   gvfs
-  helm
   htop
   hugo
   hwinfo
@@ -71,6 +70,7 @@ PACKAGES=(
   intel-media-driver
   jq
   k9s
+  kubernetes-helm
   kubectl
   lazydocker
   lazygit
