@@ -9,7 +9,6 @@ This repository contains a collection of Bash scripts to automate the installati
 - Automated installation of essential development tools and applications via `xbps-install`
 - Management of dotfiles using GNU Stow with selective package application
 - OpenSSL legacy renegotiation enabling for legacy software compatibility
-- Visual Studio Code installation with curated extensions
 - Centralized logging system to track script execution and errors
 
 ---
@@ -44,11 +43,8 @@ This repository contains a collection of Bash scripts to automate the installati
    You can also run any script individually, for example:
 
    ```bash
-   ./scripts/devtools.sh
    ./scripts/dotfiles.sh
    ./scripts/openssl-legacy.sh
-   ./scripts/setup-tpm2.sh
-   ./scripts/setup-plymouth.sh
    ```
 
 ---
