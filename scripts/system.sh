@@ -155,6 +155,7 @@ info "Installing additional apps from source..."
 VOID_PACKAGES_REPO="https://github.com/void-linux/void-packages.git"
 VOID_PACKAGES_DIR="$HOME/void-packages"
 if [ ! -d "$VOID_PACKAGES_DIR" ]; then
+  info "Clone Void packages git repository form GitHub"
   git clone "$VOID_PACKAGES_REPO" "$VOID_PACKAGES_DIR"
 fi
 
