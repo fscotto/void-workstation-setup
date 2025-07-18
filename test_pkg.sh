@@ -1,0 +1,197 @@
+#!/bin/bash
+
+# Lista dei pacchetti da verificare
+packages=(
+  alsa-pipewire
+  alsa-utils
+  argocd-bin
+  arp-scan
+  base-devel
+  base-system
+  bat
+  blueman
+  bluez
+  bluez-alsa
+  bluez-utils
+  btop
+  catppuccin-gtk-theme
+  clang
+  clang-tools-extra
+  cmatrix
+  cmake
+  cronie
+  curl
+  dbus-elogind
+  dbeaver
+  dconf-editor
+  delta
+  devtoolbox
+  dmenu
+  docker
+  duf
+  dwarves
+  elogind
+  entr
+  exercism
+  eza
+  fastfetch
+  fd
+  ffmpegthumbnailer
+  filezilla
+  firefox
+  foot
+  freefilesync-bin
+  fuzzel
+  fzf
+  gcc
+  gcolor3
+  gdb
+  gh
+  git
+  git-delta
+  git-extras
+  github-cli
+  glab-bin
+  glow
+  glow-bin
+  gnome-boxes
+  gnupg
+  go
+  grim
+  grub-x86_64-efi
+  gvfs
+  helm
+  htop
+  httpie
+  hugo
+  hwinfo
+  hyprland
+  hyprpaper
+  inotify-tools
+  intel-media-driver
+  jq
+  jmeter
+  k9s
+  kitty
+  koodo-reader
+  kubectl
+  lazydocker
+  lazygit
+  libasan
+  libsanitizer-devel
+  linux-headers
+  lsof
+  ltrace
+  luarocks
+  mako
+  make
+  masterpdfeditor-bin
+  maven
+  mesa-dri
+  minikube-bin
+  mise
+  mlocate
+  moar-bin
+  moreutils
+  nasm
+  neovim
+  net-tools
+  NetworkManager
+  network-manager-applet
+  ninja
+  nm-connection-editor
+  onlyoffice-desktopeditors
+  openssh
+  openshift-cli-bin
+  operator-sdk-bin
+  papirus-icon-theme
+  papirus-icon-theme-dark
+  pavucontrol
+  pinentry-gtk
+  pinentry-tty
+  pipewire
+  pipewire-pulse
+  pipx
+  pkgconf
+  polkit
+  putty
+  python-black
+  python-flake8
+  python-ipython
+  python-isort
+  python-mypy
+  python-pip
+  python-pipx
+  python-pylint
+  python-pytest
+  python-virtualenv
+  python3-virtualenv
+  qalculate-gtk
+  quarkus
+  qemu
+  ripgrep
+  rpi-imager
+  rsync
+  rustup
+  seahorse
+  slurp
+  solaar
+  spotify
+  spring-boot
+  starship
+  stow
+  strace
+  sushi
+  sway
+  swayidle
+  swaylock
+  task
+  telegram-desktop
+  Thunar
+  thunderbird
+  tmux
+  ttf-cascadia-code-nerd
+  ttf-firacode-nerd
+  ttf-jetbrains-mono-nerd
+  ttf-roboto-mono-nerd
+  uar
+  ugrep
+  unar
+  unzip
+  valgrind
+  vim
+  vlc
+  Waybar
+  wget
+  wireplumber-elogind
+  wlogout
+  xclip
+  xdg-desktop-portal-gtk
+  xdg-desktop-portal-wlr
+  xorg-fonts
+  xournalpp
+  xsel
+  xterm
+  yarn
+  zoxide
+  zsh
+)
+
+echo "🔍 Checking packages on voidlinux.org..."
+
+not_found=()
+
+for pkg in "${packages[@]}"; do
+  result=$(curl -s "https://voidlinux.org/packages/?arch=x86_64&q=${pkg}")
+  if ! echo "$result" | grep -q "pkgdetails"; then
+    echo "❌ Not found: $pkg"
+    not_found+=("$pkg")
+  else
+    echo "✅ Found: $pkg"
+  fi
+done
+
+echo -e "\n❗ Packages not found:"
+for nf in "${not_found[@]}"; do
+  echo "$nf"
+done
