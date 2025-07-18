@@ -15,21 +15,18 @@ info "Install additional repositories non-free and multilib"
 
 install_pkg "void-repo-nonfree" "void-repo-multilib" "void-repo-multilib-nonfree"
 
-# TODO: remove from list the packages that not exists
 PACKAGES=(
   alsa-pipewire
   alsa-utils
-  argocd-bin
   arp-scan
+  apache-maven
   base-devel
   base-system
   bat
   bluez
   bluez-alsa
-  bluez-utils
   blueman
   btop
-  catppuccin-gtk-theme
   clang
   clang-tools-extra
   cmatrix
@@ -38,13 +35,11 @@ PACKAGES=(
   curl
   dbus-elogind
   dbeaver
-  dconf-editor
   delta
-  devtoolbox
   dmenu
   docker
   duf
-  dwarves
+  #dwarves
   elogind
   entr
   exercism
@@ -55,43 +50,30 @@ PACKAGES=(
   filezilla
   firefox
   foot
-  freefilesync-bin
   fuzzel
   fzf
   gcc
-  gcolor3
   gdb
-  gh
   git
-  git-delta
   git-extras
-  glab-bin
+  github-cli
+  glab
   glow
-  glow-bin
-  gnome-boxes
   gnupg
   go
   grim
-  grub-x86_64-efi
   gvfs
   helm
   htop
-  httpie
   hugo
   hwinfo
-  hyprland
-  hyprpaper
   inotify-tools
   intel-media-driver
-  jmeter
   jq
   k9s
-  kitty
   kubectl
-  koodo-reader
   lazydocker
   lazygit
-  libasan
   libsanitizer-devel
   linux-headers
   lsof
@@ -99,83 +81,60 @@ PACKAGES=(
   luarocks
   mako
   make
-  masterpdfeditor-bin
-  maven
   mesa-dri
-  minikube-bin
   mise
   mlocate
-  moar-bin
+  moar
   moreutils
   nasm
   neovim
   net-tools
   network-manager-applet
-  networkmanager
+  NetworkManager
   ninja
-  nm-connection-editor
-  onlyoffice-desktopeditors
   openssh
-  openshift-cli-bin
-  operator-sdk-bin
   papirus-icon-theme
-  papirus-icon-theme-dark
   pavucontrol
   pinentry-gtk
   pinentry-tty
   pipewire
-  pipewire-pulse
-  pipx
   pkgconf
   polkit
-  putty
-  python-black
-  python-flake8
-  python-ipython
-  python-isort
-  python-mypy
-  python-pip
-  python-pipx
-  python-pylint
-  python-pytest
-  python-virtualenv
+  polkit-elogind
+  python3-flake8
+  python3-ipython
+  python3-isort
+  python3-mypy
+  python3-pip
+  python3-pipx
+  python3-pylint
+  python3-pytest
   python3-virtualenv
-  qalculate-gtk
-  quarkus
   qemu
+  rclone
   ripgrep
   rpi-imager
   rsync
   rustup
-  seahorse
   slurp
-  solaar
-  spotify
-  spring-boot
+  #FIXME: spotify
   starship
   stow
   strace
-  sushi
   sway
   swayidle
   swaylock
-  task
   telegram-desktop
-  thunar
+  Thunar
   thunderbird
   tmux
-  ttf-cascadia-code-nerd
-  ttf-firacode-nerd
-  ttf-jetbrains-mono-nerd
-  ttf-roboto-mono-nerd
-  uar
   ugrep
   unar
   unzip
   valgrind
   vim
   vlc
-  waybar
+  Waybar
   wget
   wireplumber-elogind
   wlogout
@@ -185,7 +144,6 @@ PACKAGES=(
   xorg-fonts
   xournalpp
   xsel
-  xterm
   yarn
   zoxide
   zsh

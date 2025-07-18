@@ -11,6 +11,7 @@ is_installed?() {
     return 0
   else
     return 1
+  fi
 }
 
 # install_pkg() - Installs multiple Void Linux packages at once.
@@ -38,19 +39,31 @@ install_pkg() {
 
   # Log already installed packages
   if [ ${#pkgs_already_installed[@]} -gt 0 ]; then
-    info "Packages already installed: $(IFS=' '; echo "${pkgs_already_installed[*]}") ✔"
+    info "Packages already installed: $(
+      IFS=' '
+      echo "${pkgs_already_installed[*]}"
+    ) ✔"
   fi
 
   # Install packages that are not already present
   if [ ${#pkgs_to_install[@]} -gt 0 ]; then
-    info "Installing packages: $(IFS=' '; echo "${pkgs_to_install[*]}")"
+    info "Installing packages: $(
+      IFS=' '
+      echo "${pkgs_to_install[*]}"
+    )"
     # Use -y for non-interactive installation (assumes 'yes' to prompts)
     # Use -Syu to sync, update, and then install (good practice before installing new packages)
     if sudo xbps-install -Syu "${pkgs_to_install[@]}" >>"$LOG_FILE" 2>&1; then
-      success "Successfully installed: $(IFS=' '; echo "${pkgs_to_install[*]}")"
+      success "Successfully installed: $(
+        IFS=' '
+        echo "${pkgs_to_install[*]}"
+      )"
     else
       warn "Failed to install some packages. Check $LOG_FILE for details."
-      warn "Packages that failed: $(IFS=' '; echo "${pkgs_to_install[*]}")" # Re-list for clarity
+      warn "Packages that failed: $(
+        IFS=' '
+        echo "${pkgs_to_install[*]}"
+      )"       # Re-list for clarity
       return 1 # Indicate failure
     fi
   else
