@@ -9,9 +9,7 @@ LOG_FILE="${LOG_FILE:-install.log}"
 source "$SCRIPT_DIR/../lib/logging.sh"
 source "$SCRIPT_DIR/../lib/functions.sh"
 
-info "Installing base system packages..."
-
-info "Install additional repositories non-free and multilib"
+info "Add repositories non-free and multilib"
 
 install_pkg "void-repo-nonfree" "void-repo-multilib" "void-repo-multilib-nonfree"
 
@@ -143,11 +141,13 @@ PACKAGES=(
   xorg-fonts
   xournalpp
   xsel
+  xtools
   yarn
   zoxide
   zsh
 )
 
+info "Installing base system packages..."
 install_pkg "${PACKAGES[@]}"
 
 info "Installing additional apps from source..."
@@ -155,7 +155,7 @@ info "Installing additional apps from source..."
 VOID_PACKAGES_REPO="https://github.com/void-linux/void-packages.git"
 VOID_PACKAGES_DIR="$HOME/void-packages"
 if [ ! -d "$VOID_PACKAGES_DIR" ]; then
-  info "Clone Void packages git repository form GitHub"
+  info "Clone void-packages repository from GitHub"
   git clone "$VOID_PACKAGES_REPO" "$VOID_PACKAGES_DIR"
 fi
 
@@ -166,7 +166,6 @@ APP_PACKAGES=(
   # Note: building from source can take time and requires the void-packages repo.
   # For restricted packages like this, XBPS_ALLOW_RESTRICTED=yes is required.
   intellij-idea-ultimate-edition
-  spotify
 
   # Packages NOT available in official void-packages and require manual steps.
   # These are listed here for awareness but require user intervention.
@@ -176,12 +175,19 @@ APP_PACKAGES=(
 # Process APP_PACKAGES with Void Linux-specific instructions
 for pkg in "${APP_PACKAGES[@]}"; do
   case "$pkg" in
-  "intellij-idea-ultimate-edition" | "spotify")
+  "intellij-idea-ultimate-edition")
     info "Void Linux: Attempting to build and install $pkg via xbps-src."
     info "This requires the 'void-packages' Git repository and 'XBPS_ALLOW_RESTRICTED=yes'."
 
     if [ -d "$VOID_PACKAGES_DIR" ]; then
-      (cd "$VOID_PACKAGES_DIR" && XBPS_ALLOW_RESTRICTED=yes ./xbps-src pkg "$pkg" && sudo xbps-install --repository="$VOID_PACKAGES_DIR/hostdir/binpkgs" "$pkg") >>"$LOG_FILE" 2>&1 || warn "Void Linux: Failed to build or install $pkg via xbps-src. Check void-packages setup and 'XBPS_ALLOW_RESTRICTED'."
+      (
+        cd "$VOID_PACKAGES_DIR" &&
+          echo "XBPS_ALLOW_RESTRICTED=yes" >etc/conf &&
+          ./xbps-src binary-bootstrap &&
+          ./xbps-src pkg "$pkg" &&
+          sudo xbps-install --repository="$VOID_PACKAGES_DIR/hostdir/binpkgs" "$pkg"
+      ) >>"$LOG_FILE" 2>&1 ||
+        warn "Void Linux: Failed to build or install $pkg via xbps-src. Check void-packages setup and 'XBPS_ALLOW_RESTRICTED'."
     else
       warn "Void Linux: 'void-packages' repository not found at '$VOID_PACKAGES_DIR'. Cannot build $pkg automatically."
       warn "To install $pkg, clone void-packages (git clone $VOID_PACKAGES_REPO) and build manually with 'xbps-src pkg $pkg'."

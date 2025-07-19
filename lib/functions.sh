@@ -31,31 +31,24 @@ install_pkg() {
   # Separate packages into those to install and those already present
   for pkg in "$@"; do
     if is_installed? "$pkg"; then
+      info "Package $pkg already installed"
       pkgs_already_installed+=("$pkg")
     else
       pkgs_to_install+=("$pkg")
     fi
   done
 
-  # Log already installed packages
-  if [ ${#pkgs_already_installed[@]} -gt 0 ]; then
-    info "Packages already installed: $(
-      IFS=' '
-      echo "${pkgs_already_installed[*]}"
-    ) ✔"
-  fi
-
   # Install packages that are not already present
   if [ ${#pkgs_to_install[@]} -gt 0 ]; then
     info "Installing packages: $(
-      IFS=' '
+      IFS='\n\t'
       echo "${pkgs_to_install[*]}"
     )"
     # Use -y for non-interactive installation (assumes 'yes' to prompts)
     # Use -Syu to sync, update, and then install (good practice before installing new packages)
     if sudo xbps-install -Syu "${pkgs_to_install[@]}" >>"$LOG_FILE" 2>&1; then
       success "Successfully installed: $(
-        IFS=' '
+        IFS='\n\t'
         echo "${pkgs_to_install[*]}"
       )"
     else
