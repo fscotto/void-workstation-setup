@@ -215,20 +215,33 @@ info "Installing pinned versions of Java and Python..."
 mise install -y java@temurin-17 >>"$LOG_FILE" 2>&1 || warn "Failed to install java@temurin-17"
 mise install -y python@3.12 >>"$LOG_FILE" 2>&1 || warn "Failed to install python@3.12"
 
+# Define the expected home directory for asdf.
 asdf_home="$HOME/.asdf"
+mise_data_target="${MISE_DATA_DIR:-$HOME/.local/share/mise}"
+
+# --- Main logic to manage the ~/.asdf symlink ---
+
+# 1. Handle old asdf-vm directory: if .asdf is a directory, rename it.
 if [ -d "$asdf_home" ]; then
   warn "Old ASDF directory found. Renaming to .asdf.old"
   mv "$asdf_home" "$asdf_home.old"
-elif [ -e "$asdf_home" ]; then
-  warn "Conflicting ASDF file found. Removing."
-  rm -f "$asdf_home"
 fi
 
-if [[ ! -e "$HOME/.asdf" ]]; then
-  ln -sfn "${MISE_DATA_DIR:-$HOME/.local/share/mise}" "$HOME/.asdf"
-  success "Symlink created: ~/.asdf → ${MISE_DATA_DIR:-$HOME/.local/share/mise}"
+# 2. Create or update the symlink.
+#    - If $asdf_home does not exist, it creates it.
+#    - If $asdf_home exists and is a file (not dir/symlink), it removes it and creates.
+#    - If $asdf_home exists and is a symlink (correct or not), it updates/recreates it.
+#    - The only case this does NOT handle is if $asdf_home was a directory (handled above).
+ln -sfn "$mise_data_target" "$asdf_home"
+
+# 3. Provide feedback based on the outcome.
+if [ -L "$asdf_home" ] && [ "$(readlink "$asdf_home")" = "$mise_data_target" ]; then
+  # Check if the symlink now exists and points correctly
+  success "Symlink created/ensured: ~/.asdf → $mise_data_target"
 else
-  warn "Symlink ~/.asdf already exists"
+  # This 'else' would only be hit if ln -sfn failed for some reason (e.g., permissions)
+  # or if $asdf_home somehow became a directory again after 'mv'.
+  warn "Could not ensure symlink ~/.asdf points to $mise_data_target. Manual inspection required."
 fi
 
 success "Mise setup completed successfully."
