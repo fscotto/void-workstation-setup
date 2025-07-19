@@ -1,5 +1,12 @@
 # Void Linux Workstation Setup Scripts
 
+
+> ⚠️ **Disclaimer**  
+> These scripts are provided as-is, without any warranty.  
+> The author declines all responsibility for any damage to data, software, or hardware resulting from their use.  
+> Use them at your own risk.
+
+
 This repository contains a collection of Bash scripts to automate the installation and configuration of an Void Linux development workstation.
 
 ---
