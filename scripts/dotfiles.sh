@@ -102,10 +102,3 @@ for dotfile in "${DOTFILES_TO_INSTALL[@]}"; do
 done
 
 success "Dotfiles configuration completed"
-
-info "Configuring $USER groups (docker, bluetooth)"
-
-sudo gpasswd -a $USER docker
-sudo gpasswd -a $USER bluetooth
-
-success "Added $USER to groups docker and bluetooth"

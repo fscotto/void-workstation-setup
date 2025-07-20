@@ -64,3 +64,13 @@ install_pkg() {
   fi
   return 0 # Indicate success
 }
+
+enable_service() {
+  service="$1"
+  info "Enable $service service"
+  if sudo ln -s "/etc/sv/$service" /var/service/; then
+    warn "Failed to enable $service service"
+    return 1
+  fi
+  return 0
+}

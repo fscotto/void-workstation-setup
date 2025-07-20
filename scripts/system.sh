@@ -19,7 +19,6 @@ PACKAGES=(
   arp-scan
   apache-maven
   base-devel
-  base-system
   bat
   bluez
   bluez-alsa
@@ -37,7 +36,6 @@ PACKAGES=(
   dmenu
   docker
   duf
-  #dwarves
   elogind
   entr
   exercism
@@ -251,3 +249,22 @@ else
 fi
 
 success "Mise setup completed successfully."
+
+info "Enable services"
+sudo mkdir -p /etc/pipewire/pipewire.conf.d/
+sudo ln -s /usr/share/examples/pipewire/19-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d
+sudo ln -s /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d
+
+enable_service bluez-alsa
+enable_service bluetoothd
+enable_service cronie
+enable_service docker
+enable_service elogind
+enable_service polkitd
+
+info "Configuring $USER groups (docker, bluetooth)"
+
+sudo gpasswd -a $USER docker
+sudo gpasswd -a $USER bluetooth
+
+success "Added $USER to groups docker and bluetooth"
