@@ -252,7 +252,7 @@ success "Mise setup completed successfully."
 
 info "Enable services"
 sudo mkdir -p /etc/pipewire/pipewire.conf.d/
-sudo ln -sf /usr/share/examples/pipewire/19-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
+sudo ln -sf /usr/share/examples/pipewire/20-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
 sudo ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
 
 enable_service bluez-alsa

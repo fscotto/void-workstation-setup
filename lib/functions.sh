@@ -25,43 +25,7 @@ install_pkg() {
     return 1
   fi
 
-  local pkgs_to_install=()
-  local pkgs_already_installed=()
-
-  # Separate packages into those to install and those already present
-  for pkg in "$@"; do
-    if is_installed? "$pkg"; then
-      info "Package $pkg already installed"
-      pkgs_already_installed+=("$pkg")
-    else
-      pkgs_to_install+=("$pkg")
-    fi
-  done
-
-  # Install packages that are not already present
-  if [ ${#pkgs_to_install[@]} -gt 0 ]; then
-    info "Installing packages: $(
-      IFS='\n\t'
-      echo "${pkgs_to_install[*]}"
-    )"
-    # Use -y for non-interactive installation (assumes 'yes' to prompts)
-    # Use -Syu to sync, update, and then install (good practice before installing new packages)
-    if sudo xbps-install -Syu "${pkgs_to_install[@]}" >>"$LOG_FILE" 2>&1; then
-      success "Successfully installed: $(
-        IFS='\n\t'
-        echo "${pkgs_to_install[*]}"
-      )"
-    else
-      warn "Failed to install some packages. Check $LOG_FILE for details."
-      warn "Packages that failed: $(
-        IFS=' '
-        echo "${pkgs_to_install[*]}"
-      )"       # Re-list for clarity
-      return 1 # Indicate failure
-    fi
-  else
-    info "All specified packages are already installed. Nothing to do."
-  fi
+  sudo xbps-install -Syu "$@" >>"$LOG_FILE" 2>&1
   return 0 # Indicate success
 }
 
@@ -73,9 +37,9 @@ enable_service() {
   fi
 
   info "Enable $service service"
-  if sudo ln -s "/etc/sv/$service" /var/service/; then
+  if sudo ln -sf "/etc/sv/$service" /var/service/; then
     warn "Failed to enable $service service"
-    return 1
+    return 0
   fi
   return 0
 }
