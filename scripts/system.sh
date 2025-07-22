@@ -226,7 +226,7 @@ mise_data_target="${MISE_DATA_DIR:-$HOME/.local/share/mise}"
 # --- Main logic to manage the ~/.asdf symlink ---
 
 # 1. Handle old asdf-vm directory: if .asdf is a directory, rename it.
-if [ -d "$asdf_home" ]; then
+if [ -d "$asdf_home" ] && [ ! -L "$asdf_home" ]; then
   warn "Old ASDF directory found. Renaming to .asdf.old"
   mv "$asdf_home" "$asdf_home.old"
 fi
@@ -252,8 +252,8 @@ success "Mise setup completed successfully."
 
 info "Enable services"
 sudo mkdir -p /etc/pipewire/pipewire.conf.d/
-sudo ln -s /usr/share/examples/pipewire/19-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d
-sudo ln -s /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d
+sudo ln -sf /usr/share/examples/pipewire/19-pipewire-pulse.conf /etc/pipewire/pipewire.conf.d/
+sudo ln -sf /usr/share/examples/wireplumber/10-wireplumber.conf /etc/pipewire/pipewire.conf.d/
 
 enable_service bluez-alsa
 enable_service bluetoothd

@@ -67,6 +67,11 @@ install_pkg() {
 
 enable_service() {
   service="$1"
+  if [ -e "/var/service/$service" ]; then
+    warn "Service $service already enabled"
+    return 0
+  fi
+
   info "Enable $service service"
   if sudo ln -s "/etc/sv/$service" /var/service/; then
     warn "Failed to enable $service service"
